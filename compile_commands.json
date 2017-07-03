@@ -1,0 +1,326 @@
+[
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "Lriemannsiegel.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Lriemannsiegel.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "-I/usr/local/include", 
+            "Lglobals.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Lglobals.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "-o", 
+            "example_programs/example", 
+            "example_programs/example.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "example_programs/example.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "Lcommandline_misc.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Lcommandline_misc.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "Lcommandline_values_zeros.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Lcommandline_values_zeros.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "Ldokchitser.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Ldokchitser.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "Lgamma.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Lgamma.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "-I/usr/local/include", 
+            "Lcommandline_twist.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Lcommandline_twist.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "-I/usr/local/include", 
+            "Lcommandline.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Lcommandline.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "Lcommandline_globals.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Lcommandline_globals.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "Lnumbertheory.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Lnumbertheory.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "-I/usr/local/include", 
+            "Lelliptic.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Lelliptic.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "-I/usr/local/include", 
+            "-o", 
+            "example_programs/test_accuracy", 
+            "example_programs/test_accuracy.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "example_programs/test_accuracy.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "Lmisc.cc"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "Lmisc.cc"
+    }, 
+    {
+        "arguments": [
+            "clang",
+            "-c", 
+            "-O3", 
+            "-fPIC", 
+            "-Wall", 
+            "-Wno-unused-parameter", 
+            "-Wno-uninitialized", 
+             
+            "-Wno-unknown-pragmas", 
+            "-DUSE_DOUBLE", 
+            
+            "-fno-finite-math-only", 
+            "-g", "-stdlib=libc++",
+            "-I../include", 
+            "cmdline.c"
+        ], 
+        "directory": "/home/ralf/lcalc/src", 
+        "file": "cmdline.c"
+    }
+]
