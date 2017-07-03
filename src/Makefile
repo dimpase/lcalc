@@ -4,7 +4,7 @@
 
 #=============== c compiler ==================================
 #CC = g++
-CC = g++-4.8
+CC = g++
 
 #cc = /Users/mrubinst/local/gcc4.4/bin/gcc
 #CC = /Users/mrubinst/local/gcc4.4/bin/g++
@@ -134,7 +134,7 @@ endif
 
 #EXTRA += -ftree-vectorize  -ftree-vectorizer-verbose=5
 #-g for Apple's shark program to show me source code in profiling
-EXTRA += -g
+EXTRA += -g -std=c++11
 #EXTRA += -fomit-frame-pointer -mtune=core2 #-march=native
 
 MACHINE_SPECIFIC_FLAGS :=

@@ -12,7 +12,7 @@ char *time_stamp();
 void start_timer();
 void end_timer();
 void end_timer(char *message);
-clock_t start,end;      //for timing
+clock_t cstart,cend;      //for timing
 time_t now;             //for printing the current time
 
 template <class ttype, class ttype2>
@@ -265,11 +265,11 @@ cout << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n";
 
 void wait(double x)
 {
-    start=clock();
+    cstart=clock();
     do
     {
-        end=clock();
-    }while(end-start<x*CLOCKS_PER_SEC);
+        cend=clock();
+    }while(cend-cstart<x*CLOCKS_PER_SEC);
 }
 
 char *time_stamp()
@@ -281,15 +281,15 @@ char *time_stamp()
 void start_timer()
 {
     //cout << "Starting timer at " << time_stamp();
-    start=clock();
+    cstart=clock();
 }
 
 void end_timer()
 {
-    end=clock();
+    cend=clock();
     //cout << "Ending timer at " << time_stamp();
     //cout << "  Took " << (end-start)*1./CLOCKS_PER_SEC << " seconds." << endl;
-    printf("%4lf seconds\n",lcalc_to_double((end-start)*1./CLOCKS_PER_SEC));
+    printf("%4lf seconds\n",lcalc_to_double((cend-cstart)*1./CLOCKS_PER_SEC));
     //cout << lcalc_to_double((end-start)*1./CLOCKS_PER_SEC) << " seconds" <<endl;
 }
 

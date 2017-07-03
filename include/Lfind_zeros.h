@@ -828,11 +828,11 @@
                                 {
 
                                     if(my_verbose>2)
-                                        cout<< "#            detected missing zero between: " << cout << setprecision(DIGITS) << u3 << " and " << v2 << endl;
+                                        cout<< "#            detected missing zero between: " << setprecision(DIGITS) << u3 << " and " << v2 << endl;
                                     tmp2=zeros_zoom_brent(x3,y2,u3,v2);
                                     found_missing++;i2=i2+1;
                                     if(my_verbose>2)
-                                        cout<< "#            found missing zero: " << cout << setprecision(DIGITS) << tmp2 << endl;
+                                        cout<< "#            found missing zero: " << setprecision(DIGITS) << tmp2 << endl;
                                     count_all+=1;
                                     for(j=ii+found_missing;j>=i+2;j--){
                                         zeros_S[j][0]=zeros_S[j-1][0];
