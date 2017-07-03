@@ -24,10 +24,10 @@
 #ifndef Lglobals_H
 #define Lglobals_H
 
-using namespace std;
 
 #include <valarray>
 
+using namespace std;
 //#ifdef INCLUDE_PARI
     //#include <pari/pari.h>
 //#endif

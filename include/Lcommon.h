@@ -121,7 +121,7 @@ const bool outputSeries=true;	  // Whether to output the coefficients or just th
 
 // Loop i from m to n
 // Useful in tidying up most for loops
-#define loop(i,m,n) for(typeof(m) i=(m); i!=(n); i++)
+#define loop(i,m,n) for(decltype(m) i=(m); i!=(n); i++)
 
 // A class for calculations involving polynomials of small degree
 // Not efficient enough for huge polynomials

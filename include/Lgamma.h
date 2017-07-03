@@ -80,7 +80,7 @@ Complex gamma_sum(Complex s, int what_type,ttype *coeff, int N, Double g, Comple
 //n=0 gives log_GAMMA(z).
 //Only bothers to handle Re(z)<0 if n=0.
 template <class ttype>
-precise(ttype) log_GAMMA (ttype z,int n=0)
+precise(ttype) log_GAMMA (ttype z,int n)
 {
     int M;
     precise(ttype) log_G,r,r2,y;
@@ -280,7 +280,7 @@ Complex GAMMA (ttype z){
 //since a recursion is used to get z positive.
 //computes G(z,w), so there's an extra w^(-z) factor.
 template <class ttype>
-Complex inc_GAMMA (ttype z,ttype w, const char *method="temme")
+Complex inc_GAMMA (ttype z,ttype w, const char *method)
 {
 
     Complex G;
@@ -706,7 +706,7 @@ ttype comp_inc_GAMMA (ttype z,ttype w)  //computes g(z,w)
 }
 
 template <class ttype>
-Complex gamma_sum(Complex s, int what_type, ttype *coeff, int N, Double g, Complex l, Double Q, Long Period, Complex delta=Double(1), const char *method="temme")
+Complex gamma_sum(Complex s, int what_type, ttype *coeff, int N, Double g, Complex l, Double Q, Long Period, Complex delta, const char *method)
 {
     Complex SUM=0;
 

@@ -392,7 +392,7 @@ dirichlet_coeffs_log_diff(int num_coeffs, Complex *c)
 //all moved to rhs_explicit_formula
 template <class ttype>
 int L_function <ttype>::
-test_explicit_formula(Double x_0, Double alpha, Double *zero_table, int number_zeros, Complex *c, int num_coeffs, const char *method="hermite",int n=0,vector<Double> polynomial=vector<Double>())
+test_explicit_formula(Double x_0, Double alpha, Double *zero_table, int number_zeros, Complex *c, int num_coeffs, const char *method,int n,vector<Double> polynomial)
 {
 
   if(my_verbose>1) cout << "#        Entering test_explicit_formula" << endl;
@@ -454,7 +454,7 @@ test_explicit_formula(Double x_0, Double alpha, Double *zero_table, int number_z
 
 template <class ttype>
 Double L_function <ttype>::
-rhs_explicit_formula(Double x_0, Double alpha, Complex *c, int num_coeffs, const char *method="hermite",int n=0,vector<Double> polynomial=vector<Double>())
+rhs_explicit_formula(Double x_0, Double alpha, Complex *c, int num_coeffs, const char *method,int n,vector<Double> polynomial)
 {
 
   if(my_verbose>1){
@@ -598,7 +598,7 @@ rhs_explicit_formula(Double x_0, Double alpha, Complex *c, int num_coeffs, const
 
 template <class ttype>
 int L_function <ttype>::
-plot_explicit_formula(Double alpha, Double x=Double(0), Double x2=Double(100), Double step_size=.01, const char *xxx_phi_method="hermite", int num_coeffs=-1, Double *rhs_store=NULL){
+plot_explicit_formula(Double alpha, Double x, Double x2, Double step_size, const char *xxx_phi_method, int num_coeffs, Double *rhs_store){
 
 
     if(my_verbose>0) cout << "#    Enter plot_explicit_formula with:"

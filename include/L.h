@@ -561,10 +561,10 @@ public:
 
     //#include "Ldirichlet_series.h" //for computing Dirichlet series
     Complex partial_dirichlet_series(Complex s, long long N1, long long N2);
-    Complex dirichlet_series(Complex s, long long N);
+    Complex dirichlet_series(Complex s, long long N=-1);
 
-    Complex partial_dirichlet_series_via_blfi(Complex s, long long N1, long long N, long long K, Double epsilon);
-    Complex dirichlet_series_via_blfi(Complex s, long long N, Double blfi_interval_length, Double epsilon);
+    Complex partial_dirichlet_series_via_blfi(Complex s, long long N1=1, long long N=-1, long long K=1, Double epsilon=1.e-14);
+    Complex dirichlet_series_via_blfi(Complex s, long long N=-1, Double blfi_interval_length=1000, Double epsilon=1.e-9);
     Complex dirichlet_series_block_blfi(Complex s, long long v, long long K, int c, int c0,
             long long center_location, long long index0, Double tau, Double beta, Double lambda, Double eps);
     Complex get_block_value_directly(Complex s, long long v, long long K);
@@ -599,9 +599,9 @@ public:
 
     //#include "Lexplicit_formula.h"
     int dirichlet_coeffs_log_diff(int num_coeff, Complex *c);
-    int test_explicit_formula(Double x_0, Double alpha, Double *zero_table, int number_zeros, Complex *c, int num_coeffs, const char *method, int n, vector<Double> polynomial);
-    Double rhs_explicit_formula(Double x_0, Double alpha, Complex *c, int num_coeffs, const char *method, int n, vector<Double> polynomial);
-    int plot_explicit_formula(Double alpha, Double x, Double x2, Double step_size, const char *method, int num_coeffs, Double *rhs_array);
+    int test_explicit_formula(Double x_0, Double alpha, Double *zero_table, int number_zeros, Complex *c, int num_coeffs, const char *method="hermite", int n=0, vector<Double> polynomial=vector<Double>());
+    Double rhs_explicit_formula(Double x_0, Double alpha, Complex *c, int num_coeffs, const char *method="hermite", int n=0, vector<Double> polynomial=vector<Double>());
+    int plot_explicit_formula(Double alpha, Double x=Double(0), Double x2=Double(100), Double step_size=.01, const char *xxx_phi_method="hermite", int num_coeffs=-1, Double *rhs_store=NULL);
 
 
 };

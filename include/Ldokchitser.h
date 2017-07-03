@@ -20,7 +20,6 @@ phi_series(int precision)
 	
 	int pordtmp[a+1];
 	Complex diff;
-	Complex *lambda_k;
 	int *l;
 	
 	for (j=1;j<=a;j++)
@@ -50,7 +49,7 @@ phi_series(int precision)
         }
     
     int N = j-1;   
-    lambda_k = new Complex[N+1];
+    Complex* lambda_k = new Complex[N+1];
     l = new int[N+1];
     for (j=1;j<=N;j++)
     {
@@ -69,7 +68,7 @@ phi_series(int precision)
     
     // compute the values m[j] for the respective lambda_k[j]
     
-    Complex m[N+1];
+    Complex* m = new Complex[N+1];
     for (j=1;j<=N;j++)
     	m[j] = -2*lambda_k[j] + 2;
 	
@@ -78,7 +77,9 @@ phi_series(int precision)
 	
 	int n,fact_n;
 	Complex log_Gamma[N+1][a+1][MYDIGITS+1];
-	Complex sum_log_Gamma[N+1][MYDIGITS+1];
+	Complex** sum_log_Gamma = new Complex*[N+1];
+    for (int i=0; i<N+1; ++i)
+        sum_log_Gamma[i] = new Complex[MYDIGITS+1];
 	
 	for (j=1;j<=N;j++)
 	for (n=0;n<=MYDIGITS;n++)
@@ -103,8 +104,16 @@ phi_series(int precision)
 	
 	// compute the exponential taylor series for gamma = exp(sum_log_Gamma)
 	
-	Complex exp_sum_log_Gamma[N+1][MYDIGITS+1][MYDIGITS+1]; // symmetric functions
-	Complex gamma[N+1][MYDIGITS+1]; // gamma(s+m[j]) for j = 1 to N
+	Complex*** exp_sum_log_Gamma = new Complex**[N+1]; // symmetric functions
+    for (int i=0; i<MYDIGITS+1; ++i) {
+        exp_sum_log_Gamma[i] = new Complex*[MYDIGITS+1];
+        for (int ii=0; ii<MYDIGITS+1; ++ii)
+            exp_sum_log_Gamma[i][ii] = new Complex[MYDIGITS+1];
+    }
+
+	Complex** gamma = new Complex*[N+1];
+    for (int i=0; i<N+1; ++i)
+        gamma[i] = new Complex[MYDIGITS+1];
 	Complex temp_gamma[MYDIGITS+1];
 	Complex temp_mult_gamma[MYDIGITS+1];
 	Complex temp_exp_sum_log_Gamma[MYDIGITS+1];
@@ -170,7 +179,21 @@ phi_series(int precision)
     }
     
     cout << "-----------------------------------------------"<< endl;
-    
+
+    for (int i=0; i<MYDIGITS+1; ++i) {
+        for (int ii=0; ii<MYDIGITS+1; ++ii)
+            delete [] exp_sum_log_Gamma[i][ii];
+        delete [] exp_sum_log_Gamma[i];
+    }
+    delete [] exp_sum_log_Gamma;
+    for (int i=0; i<N+1; ++i)
+        delete [] sum_log_Gamma[i];
+    delete [] sum_log_Gamma;
+    for (int i=0; i<N+1; ++i)
+        delete [] gamma[i];
+    delete [] gamma;
+    delete [] lambda_k;
+    delete [] m;
 }
 
 #endif

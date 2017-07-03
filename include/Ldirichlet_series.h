@@ -50,7 +50,7 @@ partial_dirichlet_series(Complex s, long long N1, long long N2)
 
 template <class ttype>
 Complex L_function <ttype>::
-dirichlet_series(Complex s, long long N=-1)
+dirichlet_series(Complex s, long long N)
 {
     Complex z=0.;
     long long m,n;
@@ -88,12 +88,12 @@ dirichlet_series(Complex s, long long N=-1)
 
 template <class ttype>
 Complex L_function <ttype>::
-partial_dirichlet_series_via_blfi(Complex s, long long N1=1, long long N=-1, long long K = 1, Double epsilon = 1.e-14) {
+partial_dirichlet_series_via_blfi(Complex s, long long N1, long long N, long long K, Double epsilon) {
 //this function computes sum_{n=N1}^N a_n*n^(-s) in blocks of fixed length K,
 //for testing purposes
 
     Complex z=0.;
-    long long m,n;
+    long long n;
     long long length_of_remainder_series = (N - N1 + 1) % K;
     long long number_of_blocks = (N - N1 - length_of_remainder_series + 1) / K;
 
@@ -164,7 +164,7 @@ get_block_value_directly(Complex s, long long v, long long K) {
 
 template <class ttype>
 Complex L_function <ttype>::
-dirichlet_series_via_blfi(Complex s, long long N= -1,Double blfi_interval_length = 1000, Double epsilon = 1.e-9) {
+dirichlet_series_via_blfi(Complex s, long long N,Double blfi_interval_length, Double epsilon) {
 // Function to compute sum_{n=1}^N a_n*n^(-s) to within epsilon using precomputed data.
 // blfi_interval_length (optional) is the approximate length of the interval where
 // the sum is to be evaluated
