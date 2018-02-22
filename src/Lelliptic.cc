@@ -76,18 +76,18 @@ void data_E(char *a1, char *a2, char *a3, char *a4, char *a6, int N_terms,Double
     //gaffsg(a4,(GEN) F[4]);
     //gaffsg(a6,(GEN) F[5]);
 
-    gaffect(strtoGEN(a1), (GEN) F[1]);
-    gaffect(strtoGEN(a2), (GEN) F[2]);
-    gaffect(strtoGEN(a3), (GEN) F[3]);
-    gaffect(strtoGEN(a4), (GEN) F[4]);
-    gaffect(strtoGEN(a6), (GEN) F[5]);
+    gaffect(gp_read_str(a1), (GEN) F[1]);
+    gaffect(gp_read_str(a2), (GEN) F[2]);
+    gaffect(gp_read_str(a3), (GEN) F[3]);
+    gaffect(gp_read_str(a4), (GEN) F[4]);
+    gaffect(gp_read_str(a6), (GEN) F[5]);
 
-    E = initell(F,BIGDEFAULTPREC);
+    E = initell(F,NULL,BIGDEFAULTPREC);
 
     y = cgeti(64);
     C = cgetg(4, t_VEC);
 
-    C=globalreduction(E);
+    C=ellglobalred(E);
 
     x=gtodouble((GEN) C[1]);
 
@@ -113,8 +113,8 @@ void data_E(char *a1, char *a2, char *a3, char *a4, char *a6, int N_terms,Double
 
             p=n;
             gaffsg(p,y);
-            coeff[p] = Double(1.*llrint(gtodouble(apell(E,y))))/sqrt(Double(1.*p));
-            //coeff[p] = Double(1.*Long(gtodouble(apell(E,y))+.1))/sqrt(Double(1.*p));
+            coeff[p] = Double(1.*llrint(gtodouble(ellap(E,y))))/sqrt(Double(1.*p));
+            //coeff[p] = Double(1.*Long(gtodouble(ellap(E,y))+.1))/sqrt(Double(1.*p));
 
             if(gtolong(gmod((GEN) E[12],(GEN) y))==0) // if p|discriminant, i.e. bad reduction
             {

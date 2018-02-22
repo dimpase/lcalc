@@ -121,11 +121,11 @@ void data_numberfield(XXXXXXXXX poly, int N_terms,Double * coeff)
     //gaffsg(a4,(GEN) F[4]);
     //gaffsg(a6,(GEN) F[5]);
 
-    gaffect(strtoGEN(a1), (GEN) F[1]);
-    gaffect(strtoGEN(a2), (GEN) F[2]);
-    gaffect(strtoGEN(a3), (GEN) F[3]);
-    gaffect(strtoGEN(a4), (GEN) F[4]);
-    gaffect(strtoGEN(a6), (GEN) F[5]);
+    gaffect(strtoGENstr(a1), (GEN) F[1]);
+    gaffect(strtoGENstr(a2), (GEN) F[2]);
+    gaffect(strtoGENstr(a3), (GEN) F[3]);
+    gaffect(strtoGENstr(a4), (GEN) F[4]);
+    gaffect(strtoGENstr(a6), (GEN) F[5]);
 
     E = initell(F,BIGDEFAULTPREC);
 
