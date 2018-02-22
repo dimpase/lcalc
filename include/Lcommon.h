@@ -16,8 +16,8 @@ typedef long long Long;
 
 // To aid conversion to int value
 inline double lcalc_to_double(const Double& x) {
-#ifdef USE_DOUBLE
     return x;
+#ifdef USE_DOUBLE
 #elif USE_LONG_DOUBLE
     return x;
 #elif USE_BAILEY_DD
@@ -58,9 +58,9 @@ inline double lcalc_to_double(const double& x) { return x; }
 
 //inline double lcalc_to_double(const long double& x) { return x; }
 
-#ifndef USE_DOUBLE
-    inline double lcalc_to_double(const double& x) { return x; }
-#endif
+//#ifndef USE_DOUBLE
+//    inline double lcalc_to_double(const double& x) { return x; }
+//#endif
 
 inline double lcalc_to_double(const int& x) { return x; }
 inline double lcalc_to_double(const long double& x) { return x; }

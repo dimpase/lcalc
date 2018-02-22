@@ -33,9 +33,7 @@ using namespace std;
 //#endif
 
 //set Double according to the choice specified in the Makefile --------------
-#ifdef USE_DOUBLE
-    typedef double Double;
-#endif
+typedef double Double;
 
 #ifdef USE_LONG_DOUBLE
     typedef long double Double;
