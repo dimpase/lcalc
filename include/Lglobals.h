@@ -24,18 +24,16 @@
 #ifndef Lglobals_H
 #define Lglobals_H
 
-using namespace std;
 
 #include <valarray>
 
+using namespace std;
 //#ifdef INCLUDE_PARI
     //#include <pari/pari.h>
 //#endif
 
 //set Double according to the choice specified in the Makefile --------------
-#ifdef USE_DOUBLE
-    typedef double Double;
-#endif
+typedef double Double;
 
 #ifdef USE_LONG_DOUBLE
     typedef long double Double;

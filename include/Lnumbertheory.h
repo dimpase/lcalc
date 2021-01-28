@@ -24,6 +24,7 @@
 #ifndef Lnumbertheory_H
 #define Lnumbertheory_H
 
+#include <time.h>
 #include <stdlib.h>     //for things like srand
 #include <iostream>     //for input and output
 #include <iomanip>      //for manipulating output such as setprecision

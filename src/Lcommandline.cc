@@ -545,7 +545,7 @@ int main (int argc, char *argv[])
 
             t2=.5; //t2=.5 because of the GAMMA(s+1/2)
 
-            pari_init_opts(400000000,2,INIT_DFTm); // the last option is to prevent
+            pari_init_opts(16000000,2,INIT_DFTm); // the last option is to prevent
             //pari from giving its interrupt signal when its elliptic curve a_p
             //algorithm is called and interrupted with ctrl-c.
 
@@ -606,7 +606,8 @@ int main (int argc, char *argv[])
         if(do_elliptic_curve){
             void (*saved_err_recover)(long) = cb_pari_err_recover;
             cb_pari_err_recover = pari_err_recover_nop;
-            allocatemem(N_terms*16 + 1000000); //XXXXXXXXX this should depend on whether we're double or long double or mpfr double
+            // Reallocate PARI stack
+            paristack_setsize((size_t)N_terms*16 + 1000000, 0); //XXXXXXXXX this should depend on whether we're double or long double or mpfr double
             cb_pari_err_recover = saved_err_recover;
 
 

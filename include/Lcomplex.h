@@ -45,8 +45,6 @@
 
 #pragma GCC system_header
 
-#include <bits/c++config.h>
-
 //no longer include:
 //#include <bits/cpp_type_traits.h>  only thing used was is_floating... 
 //gcc 4.0 cpp_type_traits.h is not compatible with gcc 3.3. 

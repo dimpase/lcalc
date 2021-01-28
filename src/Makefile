@@ -4,16 +4,37 @@
 
 #=============== c compiler ==================================
 #CC = g++
-CC = g++-4.8
-
 #cc = /Users/mrubinst/local/gcc4.4/bin/gcc
 #CC = /Users/mrubinst/local/gcc4.4/bin/g++
 #LD = /Users/mrubinst/local/gcc4.4/bin/g++
 
+ifneq (,$(findstring CYGWIN,$(OS_NAME)))
+  OS_NAME := CYGWIN
+endif
+
+# Note: I've also changed various rules to use $CXX instead of $CC,
+# since we mostly compile C++, not C, and $CC is by convention
+# used for the *C* compiler.
+CC ?= gcc
+CXX ?= g++
 
 
 #=============== install directory (for 'make install') ======
-INSTALL_DIR= /usr/local
+INSTALL_DIR ?= /usr/local
+
+#binary and library files extensions
+LIBEXT := .so
+EXEEXT :=
+
+ifeq ($(OS_NAME),Darwin)
+    LIBEXT := .dylib
+    EXEEXT :=
+endif
+
+ifeq ($(OS_NAME),CYGWIN)
+    LIBEXT := .dll
+    EXEEXT := .exe
+endif
 
 #=============== location of various optional packages =======
 # If you do not wish to use any of these packages, there is no need
@@ -30,8 +51,6 @@ BAILEY_DIR = /usr/local
 #on riemann.math
 #/opt/qd_gnu
 
-#location of PARI files: i.e. directory that has include/pari and lib with
-PARI_DIR=/usr/local
 #PARI_DIR=/Users/mrubinst/local/pari-2.3.4/install_dir
 #on riemann.math
 #/opt/pari_gnu
@@ -71,7 +90,7 @@ LDFLAGS =
 ifeq ($(DOUBLE),)
     PREPROCESSOR_DEFINE = -DUSE_DOUBLE
     EXTENSION =
-    EXTRA := --fast-math -fno-finite-math-only
+    EXTRA := -fno-finite-math-only
 endif
 
 # 2) Bailey's double double. Gives about 30 digits precision.
@@ -116,7 +135,6 @@ endif
 ifeq ($(DOUBLE),ld)
     PREPROCESSOR_DEFINE = -DUSE_LONG_DOUBLE
     EXTENSION = _ld
-    EXTRA := --fast-math
 endif
 
 
@@ -124,17 +142,20 @@ endif
 # Comment out the following line to remove the use of pari's
 # elliptic curve routines. Doing so disables lcalc's -e commandline option.
 # For the -e lcalc option to work you need pari installed on your machine.
-#PARI_DEFINE = -DINCLUDE_PARI
+PARI_DEFINE = -DINCLUDE_PARI
 
 ifeq ($(PARI_DEFINE),-DINCLUDE_PARI)
-    LDFLAGS += -L$(PARI_DIR)/lib -lpari
+	#location of PARI files: i.e. directory that has include/pari and lib with
+    PARI_DIR = $(SAGE_LOCAL)
+    LDFLAGS += -L$(PARI_DIR)/lib -lpari -lgmp -lm
 endif
+
 
 #==================== misc extra compiling options ============
 
 #EXTRA += -ftree-vectorize  -ftree-vectorizer-verbose=5
 #-g for Apple's shark program to show me source code in profiling
-EXTRA += -g
+EXTRA += -g -std=c++11
 #EXTRA += -fomit-frame-pointer -mtune=core2 #-march=native
 
 MACHINE_SPECIFIC_FLAGS :=
@@ -153,29 +174,21 @@ endif
 
 #==================== set the compiling flags ============
 #CCFLAGS = -fPIC -Wall $(DISABLE_WARNINGS) $(OPENMP_FLAG) $(PREPROCESSOR_DEFINE) $(MACHINE_SPECIFIC_FLAGS) $(EXTRA)
-CCFLAGS = -O3 -fPIC -Wall $(DISABLE_WARNINGS) $(OPENMP_FLAG) $(PREPROCESSOR_DEFINE) $(MACHINE_SPECIFIC_FLAGS) $(EXTRA)
-
+#CCFLAGS = -O3 -fPIC -Wall $(DISABLE_WARNINGS) $(OPENMP_FLAG) $(PREPROCESSOR_DEFINE) $(MACHINE_SPECIFIC_FLAGS) $(EXTRA)
 #CCFLAGS =  -Wa,-W -O2 $(OPENMP_FLAG) -Wno-deprecated $(PREPROCESSOR_DEFINE) $(MACHINE_SPECIFIC_FLAGS) $(EXTRA)
 #CCFLAGS =  -Wall -O2 $(OPENMP_FLAG) $(PREPROCESSOR_DEFINE) $(MACHINE_SPECIFIC_FLAGS) $(EXTRA)
 
+CXXFLAGS := -O3 $(OPENMP_FLAG) $(PREPROCESSOR_DEFINE) $(MACHINE_SPECIFIC_FLAGS) $(EXTRA) $(CXXFLAGS) -fPIC
 
 #================ various linking flags =======================
 #For mac os x shared libraries are hanled with the -dynamiclib option
 ifeq ($(OS_NAME),Darwin)
-    DYN_OPTION=dynamiclib
+    DYN_OPTION=dynamiclib -Wl,-headerpad_max_install_names
 else
     DYN_OPTION=shared
 
     LDFLAGS += -Xlinker -rpath -Xlinker . #for linking to Liblfunction within the current directory
-
-    ifeq ($(PARI_DEFINE),-DINCLUDE_PARI)
-       LDFLAGS += -Xlinker -export-dynamic #not sure why pari calls these when linking but on the web I found
-       #'Libtool provides the `-export-dynamic' link flag (see section Link mode), which does this declaration.
-       #You need to use this flag if you are linking a shared library that will be dlopened'
-       LDFLAGS += -Xlinker -rpath -Xlinker $(PARI_DIR)/lib
-    endif
 endif
-
 
 ifeq ($(OPENMP_FLAG),-fopenmp)
     LDFLAGS += -lgomp
@@ -203,8 +216,7 @@ endif
 OBJ_L = Lglobals.o Lmisc.o Lgamma.o Lriemannsiegel.o Lnumbertheory.o Lelliptic.o Ldokchitser.o
 
 #object files for the command line program
-#OBJECTS := $(OBJ_L) Lcommandline_globals.o Lcommandline_misc.o Lcommandline_values_zeros.o
-OBJECTS := Lcommandline_globals.o Lcommandline_misc.o Lcommandline_values_zeros.o
+OBJECTS := $(OBJ_L) Lcommandline_globals.o Lcommandline_misc.o Lcommandline_values_zeros.o
 OBJECTS += Lcommandline_twist.o Lcommandline.o cmdline.o
 
 #================ source files (used by 'make depend') ===========
@@ -215,7 +227,7 @@ SRCS = Lcommandline.cc Lcommandline_globals.cc Lcommandline_misc.cc Lcommandline
 #========================= make ==================================
 all:
 	$(MAKE) library
-	$(MAKE) lcalc
+	$(MAKE) lcalc$(EXEEXT)
 	$(MAKE) examples
 #	$(MAKE) sacha
 	$(MAKE) test
@@ -233,57 +245,58 @@ library: $(OBJ_L)
 	$(CC) -$(DYN_OPTION) $(LDFLAGS) -o libLfunction$(EXTENSION).so $(OBJ_L)
 #	$(CC) -$(DYN_OPTION) -o libLfunction$(EXTENSION).so $(OBJ_L)
 
-lcalc: $(OBJECTS)
-	$(CC) $(CCFLAGS) $(OBJECTS) -L. -lLfunction$(EXTENSION) $(LDFLAGS) -o lcalc$(EXTENSION)
-#	$(CC) $(CCFLAGS) $(INCLUDEFILES) $(OBJECTS) $(LDFLAGS) -o lcalc$(EXTENSION)
+lcalc$(EXEEXT): $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) $(OBJECTS) $(LDFLAGS) -o lcalc$(EXEEXT) $(PARI_LIBS) $(GMP_FLAGS)
 
 Lglobals.o: Lglobals.cc
-	$(CC) $(CCFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) -c Lglobals.cc
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) -c Lglobals.cc
 
 Lelliptic.o: Lelliptic.cc
-	$(CC) $(CCFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) -c Lelliptic.cc
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) -c Lelliptic.cc
 
 Lcommandline_twist.o: Lcommandline_twist.cc
-	$(CC) $(CCFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) -c Lcommandline_twist.cc
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) -c Lcommandline_twist.cc
 
 Lcommandline.o: Lcommandline.cc
-	$(CC) $(CCFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) -c Lcommandline.cc
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) -c Lcommandline.cc
 
 .cc.o:
-	$(CC) $(CCFLAGS) $(INCLUDEFILES) -c $<
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) -c $<
 
 .c.o:
 	$(CC) $(CCFLAGS) $(INCLUDEFILES) -c $<
 #$(CC) $(CCFLAGS) $(INCLUDEFILES) -DHAVE_LONG_LONG -c cmdline.c
 
 examples:
-#	$(CC) $(CCFLAGS) $(INCLUDEFILES) example_programs/example2.cc -L. -lLfunction$(EXTENSION) $(LDFLAGS) -o example_programs/example2
-	$(CC) $(CCFLAGS) $(INCLUDEFILES) example_programs/example.cc -L. -lLfunction$(EXTENSION) $(LDFLAGS) -o example_programs/example
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) example_programs/example.cc -L. -lLfunction$(EXTENSION) $(LDFLAGS) -o example_programs/example$(EXEEXT) $(PARI_LIBS) $(GMP_FLAGS)
 
 sacha:
-	$(CC) $(CCFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) sacha.cc -L. -lLfunction$(EXTENSION) $(LDFLAGS) -o sacha$(EXTENSION)
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) sacha.cc -L. -lLfunction$(EXTENSION) $(LDFLAGS) -o sacha$(EXTENSION)
 
 
 test:
-	$(CC) $(CCFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) example_programs/test_accuracy.cc -L. -lLfunction$(EXTENSION) $(LDFLAGS) -o example_programs/test_accuracy$(EXTENSION)
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) -I$(PARI_DIR)/include $(PARI_DEFINE) example_programs/test_accuracy.cc -L. -lLfunction$(EXTENSION) $(LDFLAGS) -o example_programs/test_accuracy$(EXTENSION) $(PARI_LIBS) $(GMP_FLAGS)
 
 proc:
-	$(CC) $(CCFLAGS) $(INCLUDEFILES) example_programs/proc.cc $(LDFLAGS) libLfunction$(EXTENSION).so -o example_programs/proc
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) example_programs/proc.cc $(LDFLAGS) libLfunction$(EXTENSION).so -o example_programs/proc $(PARI_LIBS) $(GMP_FLAGS)
 
 test_moment:
-	$(CC) $(CCFLAGS) $(INCLUDEFILES) example_programs/test_moment.cc $(LDFLAGS) libLfunction$(EXTENSION).so -o example_programs/test
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) example_programs/test_moment.cc $(LDFLAGS) libLfunction$(EXTENSION).so -o example_programs/test $(PARI_LIBS) $(GMP_FLAGS)
 
 find_L:
-	$(CC) $(CCFLAGS) $(INCLUDEFILES) find_L_functions/find_L_functions.cc $(LDFLAGS) libLfunction$(EXTENSION).so -o find_L_functions/find_L
+	$(CXX) $(CXXFLAGS) $(INCLUDEFILES) find_L_functions/find_L_functions.cc $(LDFLAGS) libLfunction$(EXTENSION).so -o find_L_functions/find_L$(EXEEXT) $(PARI_LIBS) $(GMP_FLAGS)
 
 clean:
-	rm -f L*.o cmdline.o example_programs/example example_programs/test_accuracy sacha
+	rm -f L*.o cmdline.o example_programs/example$(EXEEXT) example_programs/test_accuracy sacha
 #	rm -f L*.o cmdline.o lcalc$(EXTENSION) example_programs/example example_programs/test_accuracy example_programs/sacha
 
+distclean: clean
+	rm -f lcalc$(EXEEXT) libLfunction$(EXTENSION).so
+
 install:
-	cp -f lcalc$(EXTENSION) $(INSTALL_DIR)/bin/.
+	cp -f lcalc$(EXEEXT) $(INSTALL_DIR)/bin/.
 	cp -f libLfunction$(EXTENSION).so $(INSTALL_DIR)/lib/.
-	cp -rf ../include $(INSTALL_DIR)/include/Lfunction
+	cp -rf ../include $(INSTALL_DIR)/include/libLfunction
 
 depend:
 	makedepend -- $(CCFLAGS) -Y../include -- $(SRCS)

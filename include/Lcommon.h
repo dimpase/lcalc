@@ -16,8 +16,8 @@ typedef long long Long;
 
 // To aid conversion to int value
 inline double lcalc_to_double(const Double& x) {
-#ifdef USE_DOUBLE
     return x;
+#ifdef USE_DOUBLE
 #elif USE_LONG_DOUBLE
     return x;
 #elif USE_BAILEY_DD
@@ -58,9 +58,9 @@ inline double lcalc_to_double(const double& x) { return x; }
 
 //inline double lcalc_to_double(const long double& x) { return x; }
 
-#ifndef USE_DOUBLE
-    inline double lcalc_to_double(const double& x) { return x; }
-#endif
+//#ifndef USE_DOUBLE
+//    inline double lcalc_to_double(const double& x) { return x; }
+//#endif
 
 inline double lcalc_to_double(const int& x) { return x; }
 inline double lcalc_to_double(const long double& x) { return x; }
@@ -119,10 +119,6 @@ template<class T> inline int sn(T x)
 
 const bool outputSeries=true;	  // Whether to output the coefficients or just the answer
 
-// Loop i from m to n
-// Useful in tidying up most for loops
-#define loop(i,m,n) for(typeof(m) i=(m); i!=(n); i++)
-
 // A class for calculations involving polynomials of small degree
 // Not efficient enough for huge polynomials
 //
@@ -141,7 +137,7 @@ template<class T=Complex> struct smallPoly {
 
 	void resize(int N) {
 		coeffs.resize(N);
-		loop(i,this->N,N)
+		for(int i=this->N; i!=N; ++i)
 			coeffs[i]=zero;
 		this->N=N;
 	}
@@ -157,9 +153,9 @@ template<class T=Complex> struct smallPoly {
 	// Multiply two polys together, truncating the result
 	friend poly operator*(const poly& f, const poly& g) {
 		poly result(max(f.N,g.N));
-		loop(i,0,f.N) result[i]=0;
+		for (int i=0; i!=f.N; ++i) result[i]=0;
 		//double test;
-		loop(i,0,f.N) loop(j,0,result.N-i) {
+		for(int i=0; i!=f.N; ++i) for(int j=0; j!=result.N-i; ++j) {
 			result[i+j]+=f[i]*g[j];
 		}
 		return result;
@@ -167,7 +163,7 @@ template<class T=Complex> struct smallPoly {
 
 	// Divide (in place) by (x-1/a) = (1-ax)/(-a) with a!=0
 	void divideSpecial(T a) {
-		loop(i,1,N) coeffs[i]+=coeffs[i-1]*a;
+		for(int i=1; i!=N; ++i) coeffs[i]+=coeffs[i-1]*a;
 		coeffs*= -a;
 	}
 
@@ -176,7 +172,7 @@ template<class T=Complex> struct smallPoly {
 		U sum=coeffs[0];
 		U cur=1;
 
-		loop(i,1,N) {
+		for(int i=1; i!=N; ++i) {
 			cur*=x;
 			sum+=coeffs[i]*x;
 		}
@@ -185,7 +181,7 @@ template<class T=Complex> struct smallPoly {
 
 	// Output to stdout
 	friend ostream& operator<<(ostream& s, const poly p) {
-		loop(i,0,p.N) s << (i ? " + " : "") << p[i] << "x^" << i;
+		for(int i=0; i!=p.N; ++i) s << (i ? " + " : "") << p[i] << "x^" << i;
 		return s;
 	}
 	
